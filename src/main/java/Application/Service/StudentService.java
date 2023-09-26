@@ -58,8 +58,21 @@ public class StudentService {
      * @param classroom a persisted, existing classroom passed into this method
      */
     public void assignClassroomToStudent(long studentId, Classroom classroom){
+         // First, retrieve the student entity by its ID
+    Optional<Student> optionalStudent = studentRepository.findById(studentId);
 
+    if (optionalStudent.isPresent()) {
+        // Update the classroom field of the student entity
+        Student student = optionalStudent.get();
+        student.setClassroom(classroom);
+
+        // Save the updated student entity to the database
+        studentRepository.save(student);
+    } else {
+        // Handle the case where the student with the provided ID is not found.
+        // You can throw an exception or handle it based on your application's logic.
     }
+}
 
     /**
      * TODO: Provided the Id of an already existing student entity, return its assigned classroom by retrieving
@@ -69,7 +82,18 @@ public class StudentService {
      * @return the Classroom of the student
      */
     public Classroom getClassroomOfStudent(long studentId){
-        return null;
+          // Retrieve the student entity by its ID
+    Optional<Student> optionalStudent = studentRepository.findById(studentId);
+
+    if (optionalStudent.isPresent()) {
+        // Return the classroom associated with the student
+        Student student = optionalStudent.get();
+        return student.getClassroom();
+    } else {
+        // Handle the case where the student with the provided ID is not found.
+        // You can throw an exception or handle it based on your application's logic.
+        return null; // Or throw an exception
+        }
     }
 
     /**
@@ -79,6 +103,21 @@ public class StudentService {
      * @param studentId Id of a persisted, existing student entity
      */
     public void unassignClassroomOfStudent(long studentId){
+         // Retrieve the student entity by its ID
+    Optional<Student> optionalStudent = studentRepository.findById(studentId);
 
+    if (optionalStudent.isPresent()) {
+        // Unassign the classroom by setting the classroom field to null
+        Student student = optionalStudent.get();
+        student.setClassroom(null);
+
+        // Save the updated student entity to the database
+        studentRepository.save(student);
+    } else {
+        // Handle the case where the student with the provided ID is not found.
+        // You can throw an exception or handle it based on your application's logic.
+        }
     }
 }
+
+
